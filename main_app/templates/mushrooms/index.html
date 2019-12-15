@@ -10,9 +10,7 @@
         <p>Found on: {{ mushroom.date }}</p>
         <p>Place: {{ mushroom.place }}</p>
         <p>Note: {{ mushroom.note }}</p>
-        {% for image in images %}
-        <image src=" {{ mushroom.image }}"></image>
-        {% endfor %}
+        <image src=" {{ mushroom.images[0] }}"></image>
     </div>
 </div>
 {% endfor %}
