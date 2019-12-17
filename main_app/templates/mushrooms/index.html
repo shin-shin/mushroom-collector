@@ -3,9 +3,9 @@
 
 <h1>Mushroom List</h1>
 
-{% for mushroom in mushrooms %}
 <div class="row">
-    <div class="col s12 m6">
+{% for mushroom in mushrooms %}
+    <div class="col s12 m4">
         <div class="card large">
             <div class="card-image">
                 <image class="responsive-img" width="30%" src=" {{ mushroom.images }}">
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
-{% endfor %}
 
 {% endblock %}
