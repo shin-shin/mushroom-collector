@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from .models import Mushroom
 
 # Create your views here.
@@ -15,4 +16,6 @@ def mushrooms_details(request, mushroom_id):
     mushroom = Mushroom.objects.get(id=mushroom_id)
     return render(request, 'mushrooms/details.html', {"mushroom": mushroom})
 
+def test(request):
+    return HttpResponse('<h1>the temp is </h1>')
 
