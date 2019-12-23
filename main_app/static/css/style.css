@@ -1,54 +1,13 @@
 body {
-    /* background-color: red; */
-  }
+	margin: 0;
+  background:#fff;
+  background-image: url('/static/images/bg.png');
+  background-size: cover;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 
-  /* .row.cards {
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-content: center;
- 
+  main {
+    flex: 1 0 auto;
   }
-  .row.cards .col.m4 {
-   width: 100%;
-   margin-left: auto;
-   left: auto;
-   right: auto;
- }
- 
-  .row.cards .col.xl4 {
-   width: 100%;
-   margin-left: auto;
-   left: auto;
-   right: auto;
- }
- 
- 
- 
-  @media only screen and (min-width: 600px) {
-   .row.cards {
-     display: grid;
-     grid-template-columns: 1fr 1fr;
-     justify-content: center;
-  
-   }
-  
- 
- }
-  @media only screen and (min-width: 992px) {
-   .row.cards {
-     display: grid;
-     grid-template-columns: 1fr 1fr 1fr;
-     justify-content: center;
-  
-   }
-  
- 
- }
- @media only screen and (min-width: 1400px) {
-   .row.cards {
-     display: grid;
-     grid-template-columns: 1fr 1fr 1fr 1fr;
-     justify-content: center;
-  
-   }
-  } */
