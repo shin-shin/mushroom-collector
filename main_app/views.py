@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import ListView
 from .models import Mushroom
 import os
 
@@ -17,6 +18,6 @@ def mushrooms_details(request, mushroom_id):
     mushroom = Mushroom.objects.get(id=mushroom_id)
     return render(request, 'mushrooms/details.html', {"mushroom": mushroom})
 
-def test(request):
-    return HttpResponse('<h1>the temp is </h1>')
+class Test(ListView):
+    model = Mushroom
 
