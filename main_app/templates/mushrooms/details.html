@@ -1,16 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>{{ mushroom.variety }}</h1>
-
+<br>
 <div class="card">
     <div class="card-content">
-        <span class="card-title">{{ mushroom.variety }}</span>
-        <p>Found on: {{ mushroom.date }}</p>
-        <p>Place: {{ mushroom.place }}</p>
+        <span class="card-title">{{ variety.variety_name }} 2</span>
+        {% if variety.latin %}
+        <span class="card-title"><i>({{ variety.latin }})</i></span>
+        {% endif %}
+        <span class="card-subtitle">{% if variety.edible == True %}<span class="green-text">Edible</span>{% else %}<span
+                class="red-text">Non-edible</span>{% endif %}</span>
+
+        <p>Found on {{ mushroom.date }}</p>
+        <p>In {{ mushroom.place }}{% if mushroom.place.city %},
+            {{ mushroom.place.city }}{% endif %}{% if mushroom.place.state %},
+            {{ mushroom.place.state }}{% endif %}{% if mushroom.place.country %},
+            {{ mushroom.place.country }}
+            {% endif %}</p>
+        <br>
         <p>Note: {{ mushroom.note }}</p>
-        <br/>
-        <image width="100%" src=" {{ mushroom.images }}"></image>
+        <br />
+        {% for photo in mushroom.photo_set.all %}
+        <image width="100%" src=" {{ photo.url }}">
+            {% endfor %}
+            <div class="card-action">
+                <a href="{% url 'mushroom_update' mushroom.id %}">Edit</a>
+                <a href="{% url 'mushroom_delete' mushroom.id %}">Delete</a>
+            </div>
     </div>
 </div>
 

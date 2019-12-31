@@ -8,26 +8,40 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mushroom Collector</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="{% static 'css/materialize.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 
 <body>
-    <nav class=" brown lighten-3" role="navigation">
-      <div class="nav-wrapper container">
-        <a href="/" class="brand-logo" id="logo-container">Mushroom&nbsp;Collector</a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="{% url 'mushrooms' %}">View All My Finds</a></li>
-        </ul>
-        <ul id="nav-mobile" class="sidenav">
-          <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="{% url 'mushrooms' %}">View All My Finds</a></li>
-        </ul>
-        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-      </div>
-    </nav>
+  <nav class=" brown lighten-3" role="navigation">
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo" id="logo-container">Mushroom&nbsp;Collector</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="{% url 'about' %}">About</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'mushrooms' %}">All My Finds</a></li>
+        <li><a href="{% url 'new_mushroom' %}">Add a Mushroom</a></li>
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+        {% else %}
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        <li><a href="{% url 'login' %}">Log In</a></li>
+        {% endif %}
+      </ul>
+      <ul id="nav-mobile" class="sidenav">
+        <li><a href="{% url 'about' %}">About</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'mushrooms' %}">All My Finds</a></li>
+        <li><a href="{% url 'new_mushroom' %}">Add a Mushroom</a></li>
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+        {% else %}
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        <li><a href="{% url 'login' %}">Log In</a></li>
+        {% endif %}
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
   <main class="container">
     {% block content %}
     {% endblock %}

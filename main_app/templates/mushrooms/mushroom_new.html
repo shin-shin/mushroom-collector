@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <h1 class="">Add a New Mushroom</h1>
+    <div class="card">
+        <div class="card-content">
+            <form action="" method="post">
+                {% csrf_token %}
+                <label for="variety_name">Variety name:</label>
+                <input type="text" id="variety_name" name="variety_name" required>
+                <label for="latin">Scientific name:</label>
+                <input type="text" id="latin" name="latin">
+                <label for="edible">Edible:</label>
+                <input type="checkbox" id="edible" name="edible">
+                <br><br>
+
+                <label for="place_name">Place name:</label>
+                <input type="text" id="place_name" name="place_name" required>
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country">
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+                <label for="note">Note:</label>
+                <textarea id="note" name="note" maxlength="250"></textarea>
+                <!-- shares  -->
+                <!-- photos -->
+
+
+                <br><br>
+                <input type="submit" value="Add Mushroom" class="btn">
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

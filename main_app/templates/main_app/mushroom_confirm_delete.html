@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <h1>Delete Mushroom</h1>
+    <div class="card">
+        <div class="card-content">
+            <h5>Are you sure you want to delete <span class="brown-text">{{ object.variety }}</span> mushroom?</h5>
+            <br><br>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Yes - Delete!" class="brown btn">
+                <a href="{% url 'details' mushroom.id %}" class="brown btn">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

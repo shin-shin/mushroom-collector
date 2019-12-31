@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <h2>Edit Mushroom Found on <span class="brown-text">{{object.nice_date}}</span></h2>
+    <div class="card">
+        <div class="card-content">
+            <form action="" method="post">
+                {% csrf_token %}
+                <label for="variety_name">Variety name:</label>
+                <input type="text" id="variety_name" name="variety_name" required value="{{ object.variety_name }}">
+                <label for="latin">Scientific name:</label>
+                <input type="text" id="latin" name="latin" value="{{ object.latin }}">
+                <label for="edible">Edible:</label>
+                <input type="checkbox" id="edible" name="edible" value="{{ object.edible }}">
+                <br><br>
+
+                <label for="place_name">Place name:</label>
+                <input type="text" id="place_name" name="place_name" required value="{{ object.place_name }}">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" value="{{ object.city }}">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" value="{{ object.state }}">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" value="{{ object.country }}">
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required value="{{ object.date }}">
+                <label for="note">Note:</label>
+                <textarea id="note" name="note" maxlength="250">{{ object.note }}</textarea>
+                <!-- shares  -->
+                <!-- photos -->
+
+
+                <br><br>
+                <input type="submit" value="Update Mushroom" class="btn">
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
