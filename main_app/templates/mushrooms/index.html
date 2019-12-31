@@ -5,17 +5,22 @@
 
 <div class="row">
     {% for mushroom in mushrooms %}
-    <div class="col s12 m4">
+    <div class="col s12 m6 l4">
         <div class="card large">
             <div class="card-image">
-                
-                <image class="responsive-img" width="30%" src=" {{ mushroom.photo_set.first.url }}">
+                {% if mushroom.photo_set %}
+                <div class="card-image">
+                    <image class="responsive-img" width="30%" src="{{ mushroom.photo_set.first.url }}">
+                </div>
+                {% endif %}
             </div>
             <div class="card-content">
                 <span class="card-title">{{ mushroom.variety }}</span>
                 <p>Found on: {{ mushroom.date }}</p>
                 <p>Place: {{ mushroom.place }}</p>
+                {% if mushroom.note  %}
                 <p>Note: {{ mushroom.note }}</p>
+                {% endif %}
             </div>
             <div class="card-action">
                 <a href="/mushrooms/{{ mushroom.id }}">See details</a>

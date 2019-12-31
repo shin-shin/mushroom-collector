@@ -8,6 +8,15 @@ body {
   flex-direction: column;
 }
 
-  main {
-    flex: 1 0 auto;
-  }
+main {
+  flex: 1 0 auto;
+}
+
+.border {
+  border: 5px solid #BBA6A0;
+  margin-bottom: 20px;
+}
+
+.link {
+  color: #ffab40;
+}

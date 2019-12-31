@@ -53,9 +53,9 @@ class Mushroom(models.Model):
         ordering = ['-date']
 
 class Photo(models.Model):
-    url = models.URLField()
+    url = models.CharField(max_length=200)
     mushroom = models.ForeignKey(Mushroom, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Photo of {self.mushroom}"
+        return f"Photo of {self.mushroom} @{self.url}"
 

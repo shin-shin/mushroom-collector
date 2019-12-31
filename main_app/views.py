@@ -11,6 +11,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 import os
+import uuid
+import boto3
+
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'mycoco'
 
 # Create your views here.
 def signup(request):
@@ -34,12 +39,14 @@ def about(request):
 
 @login_required    
 def mushrooms_index(request):
+    print("mushrooms_index starts!")
     mushrooms = Mushroom.objects.filter(user=request.user)
+    print("first mushroom photos: ", mushrooms[0].photo_set)
     return render(request, 'mushrooms/index.html', {"mushrooms": mushrooms})
 
 from django.forms.models import inlineformset_factory
 
-# a way to have form with many models
+@login_required 
 def mushroom_update(request, pk):
     print('mushroom_update called, pk=', pk)
     mushroom = Mushroom.objects.get(id=pk)
@@ -85,7 +92,7 @@ def mushroom_update(request, pk):
         }
         return render(request, "mushrooms/mushroom_update.html", context)
 
-
+@login_required 
 def mushroom_form(request, *pk):
     print('multiple forms: starts! request.variety_name=', request.POST.get('variety_name'))
     print('request.user ', request.user)
@@ -114,43 +121,62 @@ def mushroom_form(request, *pk):
         }
     return render(request, "mushrooms/mushroom_new.html")
 
-
-
-
-
-# class VarietyCreate(LoginRequiredMixin, CreateView):
-#     model = Variety
-#     fields = ['name', 'latin', 'edible']
-#     def form_valid(self, form):
-#         # Assign the logged in user
-#         form.instance.user = self.request.user
-#         # Let the CreateView do its job as usual
-#         return super().form_valid(form)
-
-# class MushroomCreate(LoginRequiredMixin, CreateView):
-#     model = Mushroom
-#     fields = ['date', 'note']
-#     def form_valid(self, form):
-#         # Assign the logged in user
-#         form.instance.user = self.request.user
-#         # Let the CreateView do its job as usual
-#         return super().form_valid(form)
-
-# class MushroomUpdate(LoginRequiredMixin, UpdateView):
-#     model = Mushroom
-#     fields = ['variety', 'place', 'note', 'shares']
-
 class MushroomDelete(LoginRequiredMixin, DeleteView):
     model = Mushroom
     success_url = '/mushrooms/'
-
-
 
 
 @login_required
 def mushrooms_details(request, mushroom_id):
     print("mushroom_id", mushroom_id)
     mushroom = Mushroom.objects.get(id=mushroom_id)
-    return render(request, 'mushrooms/details.html', {"mushroom": mushroom, "variety": mushroom.variety})
+    not_shared_on = Share.objects.exclude(id__in = mushroom.shares.all().values_list('id'))
+    return render(request, 'mushrooms/details.html', {
+        "mushroom": mushroom, 
+        "variety": mushroom.variety,
+        "shares": not_shared_on
+        })
 
+@login_required 
+def add_photo(request, mushroom_id):
+    print("mushroom_id", mushroom_id)
+    # photo-file will be the "name" attribute on the <input type="file">
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        # need a unique "key" for S3 / needs image file extension too
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        # just in case something goes wrong
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            # build the full url string
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            # we can assign to mushroom_id or mushroom (if you have a mushroom object)
+            photo = Photo(url=url, mushroom_id=mushroom_id)
+            photo.save()
+        except:
+            print('An error occurred uploading file to S3')
+    return redirect('details', mushroom_id=mushroom_id)
 
+class ShareCreate(LoginRequiredMixin, CreateView):
+    model = Mushroom
+    success_url = '/mushrooms/'
+class ShareUpdate(LoginRequiredMixin, UpdateView):
+    model = Mushroom
+    success_url = '/mushrooms/'
+class ShareList(LoginRequiredMixin, ListView):
+    model = Mushroom
+    success_url = '/mushrooms/'
+class ShareDelete(LoginRequiredMixin, DeleteView):
+    model = Mushroom
+    success_url = '/mushrooms/'
+
+@login_required
+def add_share(request, mushroom_id, share_id):
+    print("add_share: ", mushroom_id, share_id)
+    # mushroom = Mushroom.objects.get(id=pk)
+    # share = Share.objects.get(id=share_id)
+    #mushroom.share
+    Mushroom.objects.get(id=mushroom_id).shares.add(share_id)
+
+    return redirect('details', mushroom_id=mushroom_id)

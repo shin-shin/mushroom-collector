@@ -18,16 +18,72 @@
             {{ mushroom.place.country }}
             {% endif %}</p>
         <br>
+        {% if mushroom.note  %}
         <p>Note: {{ mushroom.note }}</p>
+        {% endif %}
+        <p><a href="{% url 'mushroom_update' mushroom.id %}" class="link">Add a Note</a></p>
         <br />
         {% for photo in mushroom.photo_set.all %}
-        <image width="100%" src=" {{ photo.url }}">
+        <image width="100%" src=" {{ photo.url }}" class="responsive-img border">
+            {% empty %}
+            <div class="brown-text center-align">No Photos Uploaded</div>
             {% endfor %}
-            <div class="card-action">
-                <a href="{% url 'mushroom_update' mushroom.id %}">Edit</a>
-                <a href="{% url 'mushroom_delete' mushroom.id %}">Delete</a>
-            </div>
-    </div>
-</div>
 
-{% endblock %}
+            <form action="{% url 'add_photo' mushroom.id %}" enctype="multipart/form-data" method="POST"
+                class="card-panel brown lighten-3">
+                {% csrf_token %}
+                <span class="card-title">Add a new photo</span>
+                <input type="file" name="photo-file" class="white-text">
+                <br><br>
+                <input type="submit" class="btn brown" value="Upload Photo">
+            </form>
+
+            <br>
+            {% if mushroom.shares.count %}
+            <ul class="collection with-header">
+                <li class="collection-header brown-text">
+                    <h6>This find is shared on:</h6>
+                </li>
+                {% for share in mushroom.shares.all %}
+                <li class="collection-item">
+                    {{ share.share_name }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            {% else %}
+            <p>No shares yet</p>
+            {% endif %}
+
+            <br>
+            <!-- <span class="card-title">Can be shared on</span> -->
+            {% if shares.count %}
+            <ul class="collection with-header">
+                <li class="collection-header brown-text">
+                    <h6>This mushroom can be shared on:</h6>
+                </li>
+                {% for share in shares.all %}
+                <li class="collection-item">
+                    <div>{{ share.share_name }}
+                        <form action="{% url 'add_share' mushroom.id share.id %}" method="post"
+                            class="secondary-content">
+                            {% csrf_token %}
+                            <button type="submit" class="link">Add</button>
+                        </form>
+                    </div>
+                </li class="collection-item">
+                {% endfor %}
+            </ul class="collection with-header">
+            {% else %}
+            <h6>{{variety.variety_name}} has been shared on all available platforms.</h6>
+            {% endif %}
+
+
+    </div>
+
+    <div class="card-action">
+        <a href="{% url 'mushroom_update' mushroom.id %}">Edit</a>
+        <a href="{% url 'mushroom_delete' mushroom.id %}">Delete</a>
+    </div>
+
+    {% endblock %}
