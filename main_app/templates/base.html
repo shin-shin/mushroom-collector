@@ -16,7 +16,11 @@
 <body>
   <nav class=" brown lighten-3" role="navigation">
     <div class="nav-wrapper container">
-      <a href="/" class="brand-logo" id="logo-container">Mushroom&nbsp;Collector</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'mushrooms' %}" class="brand-logo" id="logo-container">MycoCo</a>
+      {% else %}
+      <a href="/" class="brand-logo" id="logo-container">MycoCo</a>
+      {% endif %}
       <ul class="right hide-on-med-and-down">
         <li><a href="{% url 'about' %}">About</a></li>
         {% if user.is_authenticated %}

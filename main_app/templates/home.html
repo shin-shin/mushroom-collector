@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>HELLO MUSHROOM COLLECTOR!</h1>
-    <hr />
-    <p>HELLO MUSHROOM COLLECTOR!</p>
-    
+<h1>Welcome to MycoCo</h1>
+<div class="card">
+    <div class="card-content">
+        <p>This is the perfect tool to document all your finds. Just log in and start your mushroom collection!</p>
+        <br>
+        <div class="center"><a href="{% url 'login' %}" class="btn brown">Log In</a> or
+            <a href="{% url 'signup' %}" class="btn brown">Sign Up</a></div>
+    </div>
+</div>
 {% endblock %}
