@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Share List</h1>
+<div class="card">
+  <div class="card-content">
+    <ul class="collection with-header">
+      <li class="collection-header brown-text">
+        <h6>Currently sharing on:</h6>
+      </li>
+      {% for share in share_list %}
+      <li class="collection-item">
+        <div>{{ share.share_name }} (<a href="{{ share.url }}" class="link">{{ share.url }}</a>)
+          <div class="secondary-content link">
+            <a href="{% url 'shares_update' share.id %}" class="link">Edit</a> |
+            <a href="{% url 'shares_delete' share.id %}" class="link">Delete</a>
+          </div>
+          
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'shares_create' %}" class="btn brown">Add a new place to share</a>
+  </div>
+</div>
+
+
+
+{% endblock %}

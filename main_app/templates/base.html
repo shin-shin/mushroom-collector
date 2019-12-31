@@ -20,8 +20,9 @@
       <ul class="right hide-on-med-and-down">
         <li><a href="{% url 'about' %}">About</a></li>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'mushrooms' %}">All My Finds</a></li>
         <li><a href="{% url 'new_mushroom' %}">Add a Mushroom</a></li>
+        <li><a href="{% url 'mushrooms' %}">All My Finds</a></li>
+        <li><a href="{% url 'shares_index' %}">All My Shares</a></li>
         <li><a href="{% url 'logout' %}">Log Out</a></li>
         {% else %}
         <li><a href="{% url 'signup' %}">Sign Up</a></li>
@@ -31,8 +32,9 @@
       <ul id="nav-mobile" class="sidenav">
         <li><a href="{% url 'about' %}">About</a></li>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'mushrooms' %}">All My Finds</a></li>
         <li><a href="{% url 'new_mushroom' %}">Add a Mushroom</a></li>
+        <li><a href="{% url 'mushrooms' %}">All My Finds</a></li>
+        <li><a href="{% url 'shares_index' %}">All My Shares</a></li>
         <li><a href="{% url 'logout' %}">Log Out</a></li>
         {% else %}
         <li><a href="{% url 'signup' %}">Sign Up</a></li>

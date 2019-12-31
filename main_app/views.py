@@ -159,24 +159,29 @@ def add_photo(request, mushroom_id):
     return redirect('details', mushroom_id=mushroom_id)
 
 class ShareCreate(LoginRequiredMixin, CreateView):
-    model = Mushroom
-    success_url = '/mushrooms/'
+    model = Share
+    fields = '__all__'
+    success_url = '/shares/'
+
 class ShareUpdate(LoginRequiredMixin, UpdateView):
-    model = Mushroom
-    success_url = '/mushrooms/'
+    model = Share
+    fields = '__all__'
+    success_url = '/shares/'
 class ShareList(LoginRequiredMixin, ListView):
-    model = Mushroom
-    success_url = '/mushrooms/'
-class ShareDelete(LoginRequiredMixin, DeleteView):
-    model = Mushroom
-    success_url = '/mushrooms/'
+    model = Share
+# class ShareDelete(LoginRequiredMixin, DeleteView):
+#     model = Share
+#     success_url = '/shares/'
+
+def delete_share(request, pk):
+    # print("delete_activity: ", destination_id, pk)
+    share = Share.objects.get(id=pk)
+    share.delete()
+    return redirect('shares_index')
 
 @login_required
 def add_share(request, mushroom_id, share_id):
     print("add_share: ", mushroom_id, share_id)
-    # mushroom = Mushroom.objects.get(id=pk)
-    # share = Share.objects.get(id=share_id)
-    #mushroom.share
     Mushroom.objects.get(id=mushroom_id).shares.add(share_id)
 
     return redirect('details', mushroom_id=mushroom_id)

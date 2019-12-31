@@ -12,8 +12,10 @@ urlpatterns = [
     path('mushrooms/new-mushroom', views.mushroom_form, name='new_mushroom'),
     path('mushrooms/', views.mushrooms_index, name='mushrooms'),
     
-    # path('mushrooms/new-mushroom', views.mushroom_new, name='new_mushroom'),
-    # path('mushrooms/new-mushroom', views.MushroomCreate.as_view(), name='new_mushroom'),
+    path('shares/', views.ShareList.as_view(), name='shares_index'),
+    path('shares/create/', views.ShareCreate.as_view(), name='shares_create'),
+    path('shares/<int:pk>/update/', views.ShareUpdate.as_view(), name='shares_update'),
+    path('shares/<int:pk>/delete/', views.delete_share, name='shares_delete'),
     
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/signup', views.signup, name='signup'),
